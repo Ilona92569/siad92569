@@ -21,4 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "siad92569"
 include(":app")
- 
+include(":data")
+include(":feature")
