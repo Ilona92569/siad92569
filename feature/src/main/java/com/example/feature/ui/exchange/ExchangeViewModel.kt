@@ -15,17 +15,22 @@ class ExchangeViewModel(
 
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> = _error
-    private val _isError = MutableLiveData<Boolean>()
+    private val _isError = MutableLiveData<Boolean>(false)
     val isError: LiveData<Boolean> = _isError
 
-    val listCityData = MutableLiveData<List<CityData>>()
+    private val _selectedCity = MutableLiveData<String>("Брест")
+    val selectedCity : LiveData<String> = _selectedCity
+
+    private val _listCityData = MutableLiveData<List<CityData>>()
+    val listCityData : LiveData<List<CityData>> = _listCityData
 
     suspend fun getAllTickets(city: String) {
+        _listCityData.value = listOf()
         _isLoading.value = true
         try {
             val data = exchangeRepository.getRateExchangeCity(city)
             if (data != null) {
-                listCityData.value = data!!
+                _listCityData.value = data!!
                 _isError.value = false
             } else {
                 _error.value = "Данные не получены"
@@ -37,5 +42,9 @@ class ExchangeViewModel(
         } finally {
             _isLoading.value = false
         }
+    }
+
+    fun exchangeCity(city: String){
+        _selectedCity.value = city
     }
 }

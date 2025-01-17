@@ -1,21 +1,31 @@
 package com.example.siad92569.ui
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.fragment.NavHostFragment
-import com.example.siad92569.R
-import com.example.siad92569.databinding.ActivityMainBinding
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Surface
+import androidx.compose.ui.Modifier
+import androidx.navigation.compose.rememberNavController
+import com.example.feature.ui.navigation.NavGraph
+import com.example.siad92569.ui.theme.Siad92569Theme
 
-class MainActivity: AppCompatActivity() {
+class MainActivity : ComponentActivity() {
 
-    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        val navController = navHostFragment.navController
+        enableEdgeToEdge()
+        setContent {
+            val navHostController = rememberNavController()
+            Siad92569Theme {
+                Surface(modifier = Modifier.fillMaxSize()) {
+                    NavGraph(navHostController)
+                }
+            }
+
+        }
     }
 }
